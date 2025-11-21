@@ -1,0 +1,34 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "jsonl-normalizer"
+version = "0.1.0"
+description = "Normalize messy JSONL into dict-only, deduplicated, BigQuery-friendly JSONL with discard logs."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "YOUR NAME", email = "you@example.com" }
+]
+keywords = ["json", "jsonl", "bigquery", "etl", "data-cleaning"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "License :: OSI Approved :: MIT License",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Information Technology",
+  "Topic :: Utilities",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+dependencies = []
+
+[project.scripts]
+jsonl-normalize = "jsonl_normalizer.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/yeiichi/jsonl-normalizer"
+Source = "https://github.com/yeiichi/jsonl-normalizer"
+Issues = "https://github.com/yeiichi/jsonl-normalizer/issues"

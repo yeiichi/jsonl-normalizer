@@ -1,0 +1,71 @@
+# -------------------------
+# Python basics
+# -------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# -------------------------
+# Packaging / Build artifacts
+# -------------------------
+build/
+dist/
+*.egg-info/
+*.egg
+*.whl
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.cache/
+
+# Mypy / static analysis
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pytype/
+
+# -------------------------
+# Editors / IDEs
+# -------------------------
+
+# PyCharm
+.idea/
+
+# VSCode
+.vscode/
+
+# -------------------------
+# OS Junk
+# -------------------------
+.DS_Store
+Thumbs.db
+
+# -------------------------
+# Logs
+# -------------------------
+*.log
+
+# -------------------------
+# Optional: your normalized outputs
+# Uncomment if you don't want these tracked
+# normalized.jsonl
+# discarded.jsonl

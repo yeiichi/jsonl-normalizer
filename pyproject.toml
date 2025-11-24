@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [
-  { name = "YOUR NAME", email = "you@example.com" }
+  { name = "name = "Eiichi YAMAMOTO", email = "info@yeiichi.com" }
 ]
 keywords = ["json", "jsonl", "bigquery", "etl", "data-cleaning"]
 classifiers = [

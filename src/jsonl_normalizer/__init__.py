@@ -44,7 +44,7 @@ try:
     __version__ = version("jsonl_normalizer")
 except PackageNotFoundError:  # pragma: no cover - during local dev without install
     # Fallback for editable / source-only usage
-    __version__ = "0.0.0"
+    __version__ = "0.2.0"
 
 __all__ = [
     "normalize_jsonl",

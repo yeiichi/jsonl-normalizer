@@ -4,19 +4,20 @@
 ![Python versions](https://img.shields.io/pypi/pyversions/jsonl-normalizer.svg)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-A fast, fault-tolerant tool that normalizes messy JSONL files into clean, dict-only, BigQuery-friendly JSONL. Supports discard logging, SHA-256 deduplication, and mixed-type top-level lines (dicts, lists, strings, numbers).
+A fast, fault-tolerant tool that normalizes messy JSONL files into clean, dict-only, BigQuery-friendly JSONL. Supports discard logging, SHA-256 deduplication, JSONL concatenation, and mixed-type top-level lines (dicts, lists, strings, numbers).
 
 ---
 
 ## 🚀 Features
 
+### Normalization
 - Normalize any JSONL file  
   - Accepts dicts, lists, numbers, strings, malformed lines  
   - Extracts dicts from lists  
   - Logs non-dict elements instead of failing
 
 - BigQuery-friendly output  
-  Ensures one JSON object per line.
+  Ensures **one JSON object per line**.
 
 - Robust error handling  
   - Malformed JSON → logged  
@@ -28,6 +29,13 @@ A fast, fault-tolerant tool that normalizes messy JSONL files into clean, dict-o
 
 - Zero dependencies  
   Pure standard library. Fast and lightweight.
+
+### NEW (v0.2.0): JSONL Concatenation
+- Combine many `normalized_*.jsonl` files into one newline-delimited JSONL
+- Perfect for BigQuery (`NEWLINE_DELIMITED_JSON`)
+- Optional dedupe via SHA-256
+- Gentle warnings for non-standard output filenames
+- Clean argparse-based CLI (`jsonl-concat`)
 
 ---
 
@@ -45,7 +53,9 @@ pip install -e .
 
 ---
 
-## 🖥️ CLI Usage
+# 🖥️ CLI Usage
+
+## 1. Normalize JSONL
 
 Normalize a JSONL file:
 
@@ -74,7 +84,74 @@ jsonl-normalize input.jsonl --output clean.jsonl --discarded junk.jsonl
 
 ---
 
-## 📄 Example
+# 🔗 NEW: `jsonl-concat` — JSONL Concatenation Tool
+
+`jsonl-concat` concatenates multiple normalized JSONL files into a single multi-line JSONL file.
+
+This is ideal when your workflow produces many files such as:
+
+```text
+norm_jsonl/
+  normalized_0044a4b1d5099e2a.jsonl
+  normalized_007b2d5c01abc0b9.jsonl
+  normalized_02231d6de9a07833.jsonl
+  ...
+```
+
+Combine them into one BigQuery-friendly file:
+
+```bash
+jsonl-concat
+```
+
+Default behavior is equivalent to:
+
+```bash
+jsonl-concat norm_jsonl/ combined.jsonl
+```
+
+### Features
+- Reads all `normalized_*.jsonl` under the given directory  
+- Writes **one JSON object per line**  
+- Optional SHA-256 dedupe (`--no-dedupe` to disable)
+- Verbose mode (`--verbose`)  
+- Gentle suffix warning when output file is not `.jsonl`/`.ndjson`  
+
+### Examples
+
+Use defaults:
+
+```bash
+jsonl-concat
+```
+
+Explicit directory and output:
+
+```bash
+jsonl-concat norm_jsonl/ final.jsonl
+```
+
+Verbose output:
+
+```bash
+jsonl-concat --verbose norm_jsonl/ combined.jsonl
+```
+
+Disable deduplication:
+
+```bash
+jsonl-concat --no-dedupe norm_jsonl/ combined.jsonl
+```
+
+If verbose and output filename is non-standard:
+
+```
+[WARN] Output file 'out.json' does not use .jsonl or .ndjson. Continuing.
+```
+
+---
+
+# 📄 Example (Normalization)
 
 ### Input (`mixed.jsonl`)
 
@@ -100,7 +177,7 @@ jsonl-normalize input.jsonl --output clean.jsonl --discarded junk.jsonl
 
 ---
 
-## 🧪 Library Usage
+# 🧪 Library Usage
 
 ```python
 from pathlib import Path
@@ -118,28 +195,28 @@ print(stats)
 
 ---
 
-## ❓ Why jsonl-normalizer?
+# ❓ Why jsonl-normalizer?
 
 Real-world JSONL is messy:
 
-- LLMs sometimes output arrays or malformed JSON  
+- LLMs output arrays or malformed fragments  
 - Excel corrupts JSON strings  
 - Some APIs return non-dict top-level structures  
 - Data lakes accumulate junk  
-- BigQuery requires strict dict-per-line JSONL  
-- ETL pipelines often fail on partial corruption
+- BigQuery requires **strict dict-per-line JSONL**  
+- ETL pipelines fail on partial corruption  
 
 `jsonl-normalizer` fixes these problems by:
 
 - Normalizing structure  
 - Logging all junk transparently  
 - Keeping valid dicts only  
-- Providing dedupe mode  
-- Producing reliable, warehouse-ready JSONL
+- Providing optional dedupe mode  
+- Producing **warehouse-ready JSONL**
 
 ---
 
-## 🧹 Deduplication
+# 🧹 Deduplication
 
 When `--dedupe` is enabled:
 
@@ -147,7 +224,7 @@ When `--dedupe` is enabled:
 - Hashed using SHA-256  
 - Duplicates are skipped automatically
 
-Example output:
+Example:
 
 ```
 Normalized records seen: 200
@@ -158,7 +235,7 @@ Discarded items logged: 12 → discarded.jsonl
 
 ---
 
-## 🧪 Testing
+# 🧪 Testing
 
 ```bash
 pip install -e .
@@ -168,16 +245,16 @@ pytest
 
 ---
 
-## 🤝 Contributing
+# 🤝 Contributing
 
 Pull requests are welcome. Please ensure:
 
 - Tests pass  
 - Code follows PEP 8  
-- Changes remain backward compatible
+- Changes remain backward compatible  
 
 ---
 
-## 📄 License
+# 📄 License
 
 MIT License. See `LICENSE` for details.

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "jsonl-normalizer"
-version = "0.1.1"
+version = "0.2.0"
 description = "Normalize messy JSONL into dict-only, deduplicated, BigQuery-friendly JSONL with discard logs."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -27,6 +27,7 @@ dependencies = []
 
 [project.scripts]
 jsonl-normalize = "jsonl_normalizer.cli:main"
+jsonl-concat = "jsonl_normalizer.tools.concat_jsonl:main"
 
 [project.urls]
 Homepage = "https://github.com/yeiichi/jsonl-normalizer"
